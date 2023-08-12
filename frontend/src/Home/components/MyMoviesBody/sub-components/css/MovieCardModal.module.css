@@ -1,0 +1,63 @@
+.modalContainer {
+  padding: 1.5rem;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalUsers {
+  overflow-y: scroll;
+  height: 20rem;
+  width: 100%;
+  padding-right: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatarContainer {
+  border-radius: 2.5rem;
+  border: 5px solid green;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.userBox {
+  display: flex;
+  margin-bottom: 1rem;
+  border: 2px solid #fff;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.modalUsers button {
+  margin-left: auto;
+}
+
+.noBuddiesText {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.link {
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.modalUsers::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalUsers::-webkit-scrollbar-track {
+  background: #444;
+}
+
+.modalUsers::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}

@@ -1,0 +1,8 @@
+.user-details {
+  padding: 0.8rem 1.5rem 0 1.5rem;
+  display: flex;
+}
+.user-details h3 {
+  padding: 9px 0 0 10px;
+  font-weight: lighter;
+}

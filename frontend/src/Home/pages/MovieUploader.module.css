@@ -1,0 +1,27 @@
+.movieUploader {
+  height: 70.2vh;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust this value based on your design preferences */
+}
+.formContainer {
+  padding: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.inputField {
+  margin-bottom: 16px;
+}
+
+.imageUploader {
+  display: none;
+}
+
+.uploadButton {
+  margin-top: 16px;
+}

@@ -1,0 +1,54 @@
+.movies {
+  float: left;
+  width: 68%;
+  padding: 3rem;
+  overflow-y: scroll;
+}
+.upload-card {
+  cursor: pointer;
+  height: 15.5rem;
+  width: 19.55rem;
+  text-align: center;
+}
+.upload-card h1 {
+  padding-top: 5rem;
+}
+.paginationControls {
+  text-align: center;
+  margin-top: 3rem;
+}
+.paginationControls input {
+  width: 3rem;
+}
+
+.paginationControls input {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  text-align: center;
+}
+
+.paginationControls input::-webkit-inner-spin-button,
+.paginationControls input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  text-align: center;
+}
+
+.movies::-webkit-scrollbar {
+  width: 5px;
+}
+.movies::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.movies::-webkit-scrollbar-thumb {
+  background: #e7e9ee;
+}
+
+@media (max-width: 1200px) {
+  .movies {
+    width: 100%;
+  }
+}
