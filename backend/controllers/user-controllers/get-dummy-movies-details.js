@@ -1,7 +1,7 @@
 import { HttpError, messages } from "../../utils/index.js";
 import axios from "axios";
 
-export const genresArray = [
+const genresArray = [
   { id: 28, name: "Action" },
   { id: 12, name: "Adventure" },
   { id: 16, name: "Animation" },
@@ -73,21 +73,21 @@ export const getDummyMovieDetails = async (req, res, next) => {
   } else {
     const apiUrls = [popularUrl, topRatedUrl, nowPlayingdUrl, upComingUrl];
     const fetchRequests = apiUrls.map((url) =>
-      fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${process.env.TMDB_API}`,
-        },
-      })
+      axios
+        .get(url, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${process.env.TMDB_API}`,
+          },
+        })
         .then((response) => {
-          if (!response.ok) {
+          if (response.status !== 200) {
             return next(new HttpError(messages.serverError, 500));
           }
-          return response.json();
+          return response.data;
         })
-        .catch((e) => {
-          console.error("Error:", e.message);
+        .catch((error) => {
+          console.error("Error:", error.message);
           return next(new HttpError(messages.serverError, 500));
         })
     );
