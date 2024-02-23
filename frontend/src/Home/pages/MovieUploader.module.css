@@ -1,12 +1,8 @@
-.movieUploader {
-  height: 70.2vh;
-}
-
 .cardContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Adjust this value based on your design preferences */
+  height: 100vh;
 }
 .formContainer {
   padding: 16px;

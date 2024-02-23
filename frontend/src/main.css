@@ -1,20 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap");
 * {
   margin: 0;
   padding: 0;
+  font-family: "Rajdhani", sans-serif;
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
 .invisible {
   visibility: hidden;
 }
@@ -23,4 +19,13 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.link {
+  color: #679e8e;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
 }

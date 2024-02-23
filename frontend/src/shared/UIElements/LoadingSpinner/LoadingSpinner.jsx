@@ -1,9 +1,9 @@
-import "./LoadingSpinner.css";
+import classes from "./LoadingSpinner.module.css";
 
 const LoadingSpinner = ({ asOverlay }) => {
   return (
-    <div className={`${asOverlay && "loading-spinner__overlay"}`}>
-      <div className="lds-dual-ring"></div>
+    <div className={`${asOverlay && classes["loading-spinner-overlay"]}`}>
+      <div className={classes["lds-dual-ring"]}></div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Fragment } from "react";
 
 const Fields = ({ authType, register, errors }) => {
   const errorStyle = (field) => ({
@@ -8,8 +9,9 @@ const Fields = ({ authType, register, errors }) => {
   return (
     <>
       {authType === "signup" && (
-        <>
+        <Fragment>
           <TextField
+            id="username"
             autoFocus={authType === "signup"}
             style={{ backgroundColor: "#f3bfbe" }}
             margin="normal"
@@ -31,9 +33,10 @@ const Fields = ({ authType, register, errors }) => {
           {errors.username && (
             <p style={errorStyle("username")}>{errors.username.message}</p>
           )}
-        </>
+        </Fragment>
       )}
       <TextField
+        id="email"
         autoFocus={authType === "login"}
         style={{ backgroundColor: "#f3bfbe" }}
         margin="normal"
@@ -53,6 +56,7 @@ const Fields = ({ authType, register, errors }) => {
       )}
 
       <TextField
+        id="password"
         style={{ backgroundColor: "#f3bfbe" }}
         margin="normal"
         fullWidth
@@ -69,7 +73,13 @@ const Fields = ({ authType, register, errors }) => {
       )}
 
       <FormControlLabel
-        control={<Checkbox color="primary" {...register("rememberMe")} />}
+        control={
+          <Checkbox
+            id="remember-me"
+            color="primary"
+            {...register("rememberMe")}
+          />
+        }
         label="Remember me"
       />
     </>

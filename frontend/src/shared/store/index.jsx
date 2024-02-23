@@ -2,11 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import userData from "./userDataSlice";
 import auth from "./authSlice";
-import messages from "./messageSlice";
-import uiSlice from "./uiSlice";
+import themeSlice from "./themeSlice";
 
 const store = configureStore({
-  reducer: { auth, userData, messages, uiSlice },
+  reducer: { auth, userData, themeSlice },
 });
 
 export default store;

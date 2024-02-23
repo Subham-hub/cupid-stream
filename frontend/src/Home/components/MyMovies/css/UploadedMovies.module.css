@@ -1,0 +1,46 @@
+.movies {
+  float: left;
+  min-width: 77%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.movies::-webkit-scrollbar,
+.drawerBox::-webkit-scrollbar {
+  width: 5px;
+}
+.movies::-webkit-scrollbar-track,
+.drawerBox::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.movies::-webkit-scrollbar-thumb,
+.drawerBox::-webkit-scrollbar-thumb {
+  background: #e7e9ee;
+}
+
+.modal-height-limit {
+  overflow-y: scroll;
+  min-height: fit-content;
+  max-height: 30rem;
+  overflow-x: hidden;
+}
+
+.modal-height-limit::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-height-limit::-webkit-scrollbar-track {
+  background: #444;
+}
+
+.modal-height-limit::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+@media (max-width: 1550px) {
+  .movies {
+    width: 100%;
+  }
+}

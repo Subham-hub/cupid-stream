@@ -1,0 +1,122 @@
+.container {
+  padding: 20px;
+  padding-top: 0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.heading {
+  font-family: "Comic Sans MS", cursive;
+  color: #bbb176;
+}
+
+.card {
+  width: 350px;
+  height: 200px;
+  margin: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+  transition: transform 0.7s, box-shadow 0.5s;
+}
+
+.thumbnailContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.media {
+  width: 100%;
+  height: 100%;
+  transition: filter 0.3s;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  color: white;
+  transition: opacity 0.3s;
+}
+
+.card:hover .media {
+  filter: brightness(0.8);
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.username {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+}
+
+.edit-modal-textarea {
+  width: 96%;
+  margin: 1rem auto;
+  background-color: transparent;
+  color: white;
+  border-color: black;
+  padding: 9px;
+  font-size: large;
+}
+
+.link {
+  color: #d4c8a4;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.modal-height-limit {
+  overflow-y: scroll;
+  min-height: fit-content;
+  max-height: 25rem;
+}
+
+.modal-height-limit::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-height-limit::-webkit-scrollbar-track {
+  background: #444;
+}
+
+.modal-height-limit::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}

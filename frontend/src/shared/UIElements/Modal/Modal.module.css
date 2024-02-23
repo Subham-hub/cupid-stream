@@ -1,0 +1,9 @@
+.cross {
+  float: right;
+  cursor: pointer;
+  color: #679e8e;
+}
+
+.cross:hover {
+  color: #267760;
+}

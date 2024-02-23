@@ -10,16 +10,16 @@ export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return next(
-        new HttpError("Account already exists, please login instead", 422)
-      );
-  } catch (e) {
-    return next(new HttpError(messages.serverError, 500));
-  }
+    const existingUserEmail = await User.findOne({ email });
+    const existingUsername = await User.findOne({ username });
 
-  try {
+    if (existingUserEmail)
+      return next(
+        new HttpError("Email already exists, please login instead", 422)
+      );
+    if (existingUsername)
+      return next(new HttpError("Username already exists", 422));
+
     const newUser = await User.create({
       username,
       email,

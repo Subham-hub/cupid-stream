@@ -1,29 +1,55 @@
-import Typography from "@mui/material/Typography";
 import MuiModal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { Close } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
+import classes from "./Modal.module.css";
 const Modal = ({
   open,
   handleClose,
-  modalText,
-  modalDescription,
   children,
-  bgcolor = "black",
-  color = "white",
+  color,
+  bgcolor,
+  // bgcolor = "#333",
+  // color = "#fff",
   border,
-  borderRadius,
-  width = 400,
+  borderRadius = 8,
+  width = "fit-content",
   height,
   opacity,
+  minWidth,
+  minHeight,
+  closeIcon,
+  disableCloseIcon,
 }) => {
+  const { theme } = useSelector((s) => s.themeSlice);
+  const isDarkMode = theme === "dark";
+  const isLightMode = theme === "light";
+
+  const modalColorScheme = color
+    ? color
+    : isDarkMode
+    ? "#fff"
+    : isLightMode
+    ? "black"
+    : "black";
+
+  const modalBgColorScheme = bgcolor
+    ? bgcolor
+    : isDarkMode
+    ? "#333"
+    : isLightMode
+    ? "#EBCDC3"
+    : "pink";
+
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width,
-    color,
-    bgcolor,
+    color: modalColorScheme,
+    bgcolor: modalBgColorScheme,
     borderRadius,
     boxShadow: 24,
     p: 4,
@@ -39,15 +65,16 @@ const Modal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
-        {modalText && (
-          <Typography color="black" variant="h5" component="h2">
-            {modalText}
-          </Typography>
+      <Box sx={style} minWidth={minWidth} minHeight={minHeight}>
+        {closeIcon && (
+          <div
+            style={{ pointerEvents: disableCloseIcon ? "none" : "initial" }}
+            className={classes.cross}
+            onClick={handleClose}
+          >
+            <Close />
+          </div>
         )}
-        {modalDescription && (
-          <Typography sx={{ mt: 2 }}>{modalDescription}</Typography>
-        )}{" "}
         {children}
       </Box>
     </MuiModal>

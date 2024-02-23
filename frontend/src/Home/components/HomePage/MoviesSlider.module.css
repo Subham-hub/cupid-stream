@@ -1,0 +1,23 @@
+.slick-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 1;
+  cursor: pointer;
+  background-color: cyan;
+  padding: 14px;
+  display: flex;
+  border-radius: 50%;
+  transition: transform 0.5s, border-radius 0.5s;
+}
+
+.slick-arrow:hover {
+  border-radius: 10%;
+  transform: scaleY(1.5);
+}
+
+.slick-prev {
+  left: 20px;
+}
+.slick-next {
+  right: 20px;
+}

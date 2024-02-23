@@ -1,4 +1,3 @@
-import { sendMessage } from "./message/send-message.js";
-import { updateTheme } from "./update-theme.js";
+import { updateTheme } from "./UI/update-theme.js";
 
-export { sendMessage, updateTheme };
+export { updateTheme };

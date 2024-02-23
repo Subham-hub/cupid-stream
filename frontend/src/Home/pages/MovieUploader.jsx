@@ -1,123 +1,197 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-
-import Header from "../components/Header/Header";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
-import ImageUploader from "../../shared/UIElements/ImageUploader/ImageUploader";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import classes from "./MovieUploader.module.css";
 import { setData } from "../../shared/store/userDataSlice";
 import {
-  Avatar,
   Box,
   Button,
-  Checkbox,
+  CircularProgress,
   Container,
-  CssBaseline,
-  FormControlLabel,
-  Grid,
-  Link,
-  TextField,
-  TextareaAutosize,
   Typography,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { notify, types } from "../../shared/utils/notification";
+import MovieUploaderFields from "../components/MovieUploader/MovieUploaderFields";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const MovieUploader = ({ sendRequest }) => {
-  const [image, setImage] = useState();
-  const { bgColors, colors, iconColors } = useSelector((s) => s.uiSlice);
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import { useHttp } from "../../shared/hooks/http-hook";
+import { useNavigate } from "react-router-dom";
+
+const MovieUploader = () => {
+  const {
+    bgColor: { primaryBG, primaryBtnBG },
+    textColor: { secondaryText },
+  } = useSelector((s) => s.themeSlice);
   const { uid, token } = useSelector((s) => s.userData);
-  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { sendRequest, isLoading, error, clearError } = useHttp();
+
+  const [isSubmitted, setIsSubmitted] = useState({ state: false, in: "" });
+  const [page1, setPage1] = useState(true);
+
+  const [cast, setCast] = useState([]);
+  const [thumbnail, setThumbnail] = useState();
+  const [releaseDate, setReleaseDate] = useState();
+  const [runtime, setRuntime] = useState();
+  const [language, setLanguage] = useState();
+  const [country, setCountry] = useState();
+  const [ageRating, setAgeRating] = useState();
+  const [privacySetting, setPrivacySetting] = useState();
+  const [genres, setGenres] = useState([]);
 
   const onSubmit = async (data) => {
-    if (!image) return;
-    console.log(data);
+    if (
+      !releaseDate ||
+      !runtime ||
+      !language ||
+      !country ||
+      !ageRating ||
+      !privacySetting ||
+      (page1 && setPage1(false))
+    )
+      return;
+
+    if (cast.length === 0 || genres.length === 0 || !thumbnail) return;
+
     const formData = new FormData();
-    formData.append("thumnail", image);
+    formData.append("uid", uid);
     formData.append("title", data.title);
     formData.append("description", data.description);
-    formData.append("uid", uid);
+    formData.append("language", language);
+    formData.append("country", country);
+    formData.append("ageRating", ageRating);
+    formData.append("privacySetting", privacySetting);
+    formData.append("releaseDate", releaseDate);
+    formData.append("runtime", runtime);
+    formData.append("director", data.director);
+    formData.append("trailerLink", data.trailerLink);
+    formData.append("cast", JSON.stringify(cast));
+    formData.append("genres", JSON.stringify(genres));
+    formData.append("thumbnail", thumbnail);
+
     try {
-      const response = await sendRequest("upload_movie", "POST", formData, {
-        Authorization: `Bearer ${token}`,
-      });
-      if (response.success) dispatch(setData({ ...response.user, token }));
+      const response = await sendRequest(
+        "upload_movie",
+        "POST",
+        formData,
+        token
+      );
+      if (response.success) {
+        dispatch(setData({ ...response.user, token }));
+        notify(types.SUCCESS, "Successfully uploaded the movie");
+        navigate("/my-movies");
+      }
     } catch (e) {
       throw new Error(e.message);
-    } finally {
-      setImage(null);
     }
   };
 
+  useEffect(() => {
+    if (!error) return;
+    notify(types.ERROR, error);
+    clearError();
+  }, [error, clearError]);
+
   return (
     <>
-      <Header headerBg={bgColors.headerBg} headerColor={colors.headerColor} />
-      <Navbar navbarBg={bgColors.navbarBg} navbarColor={colors.navbarColor} />
-      <div className={classes.movieUploader}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
+      <Box
+        className={classes.movieUploader}
+        minHeight="74vh"
+        pt={3}
+        bgcolor={primaryBG}
+      >
+        <Typography
+          variant="h3"
+          pb={page1 ? 3 : 0}
+          textAlign="center"
+          color={secondaryText}
+        >
+          UPLOAD A MOVIE
+        </Typography>
+        <Container maxWidth="md">
           <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
-              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="title"
-                    label="Title"
-                    name="title"
-                    autoComplete="title"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextareaAutosize style={{ width: "100%" }} minRows={4} />
-                </Grid>
-                {/* <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
-                    }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
-                  />
-                </Grid> */}
-              </Grid>
+            {!page1 && (
               <Button
+                style={{ backgroundColor: primaryBtnBG }}
+                startIcon={<KeyboardDoubleArrowLeftIcon />}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => setPage1(true)}
+              >
+                Previous Page
+              </Button>
+            )}
+            <MovieUploaderFields
+              page1={page1}
+              setPage1={setPage1}
+              hookErrors={errors}
+              isSubmitted={isSubmitted}
+              register={register}
+              onSendExtraData={(data) => {
+                if (!page1) {
+                  setThumbnail(data.thumbnail);
+                  setCast(data.cast);
+                  setGenres(data.genres);
+                }
+                if (page1) {
+                  setLanguage(data.language);
+                  setReleaseDate(data.releaseDate);
+                  setRuntime(data.runtime);
+                  setAgeRating(data.ageRating);
+                  setCountry(data.country);
+                  setPrivacySetting(data.privacySetting);
+                }
+              }}
+            />
+
+            {!page1 && (
+              <Button
+                style={{ backgroundColor: primaryBtnBG }}
+                startIcon={!isLoading && <CloudUploadIcon />}
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={isLoading}
+                onClick={() => setIsSubmitted({ state: true, in: "page2" })}
               >
-                <CloudUploadIcon /> Sign Up
+                {isLoading ? <CircularProgress color="inherit" /> : "Upload"}
               </Button>
-            </Box>
+            )}
+            {page1 && (
+              <Button
+                type="submit"
+                style={{ backgroundColor: primaryBtnBG }}
+                endIcon={<KeyboardDoubleArrowRightIcon />}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => setIsSubmitted({ state: true, in: "page1" })}
+              >
+                Next Page
+              </Button>
+            )}
           </Box>
-          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Container>
-      </div>
-      <Footer
-        sendRequest={sendRequest}
-        footerBg={bgColors.footerBg}
-        footerBtnBg={bgColors.footerBtnBg}
-        footerProfileDropdownBg={bgColors.footerProfileDropdownBg}
-        footerBtnColor={colors.footerBtnColor}
-        footerProfileDropdownColor={colors.footerProfileDropdownColor}
-        footerProfileDropdownIC={iconColors.footerProfileDropdownIC}
-      />
+      </Box>
     </>
   );
 };

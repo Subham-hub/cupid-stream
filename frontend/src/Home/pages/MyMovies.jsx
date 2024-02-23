@@ -1,34 +1,31 @@
+import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
-import MyMoviesBody from "../components/MainBody/MyMoviesBody";
-import Header from "../components/Header/Header";
+import UploadedMovies from "../components/MyMovies/UploadedMovies";
+import Watchlist from "../components/MyMovies/Watchlist";
 
-const MyMovies = ({ sendRequest }) => {
-  const { bgColors, colors, iconColors } = useSelector((s) => s.uiSlice);
+const MyMovies = () => {
+  const {
+    bgColor: { primaryBG, secondaryBG },
+    textColor: { primaryText },
+    iconColor: { primaryIC },
+  } = useSelector((s) => s.themeSlice);
 
   return (
-    <>
-      <Header headerBg={bgColors.headerBg} headerColor={colors.headerColor} />
-      <Navbar navbarBg={bgColors.navbarBg} navbarColor={colors.navbarColor} />
-      <MyMoviesBody
-        mainBodyBg={bgColors.mainBodyBg}
-        movieCardBg={bgColors.movieCardBg}
-        watchlistHeaderBg={bgColors.watchlistHeaderBg}
-        movieCardColor={colors.movieCardColor}
-        watchlostHeaderColor={colors.watchlistHeaderColor}
+    <Box
+      display="flex"
+      overflow="hidden"
+      height="100vh"
+      style={{ backgroundColor: primaryBG }}
+    >
+      <UploadedMovies
+        primaryIC={primaryIC}
+        primaryBG={primaryBG}
+        secondaryBG={secondaryBG}
+        primaryText={primaryText}
       />
-      <Footer
-        sendRequest={sendRequest}
-        footerBg={bgColors.footerBg}
-        footerBtnBg={bgColors.footerBtnBg}
-        footerProfileDropdownBg={bgColors.footerProfileDropdownBg}
-        footerBtnColor={colors.footerBtnColor}
-        footerProfileDropdownColor={colors.footerProfileDropdownColor}
-        footerProfileDropdownIC={iconColors.footerProfileDropdownIC}
-      />
-    </>
+      <Watchlist secondaryBG={secondaryBG} primaryText={primaryText} />
+    </Box>
   );
 };
 

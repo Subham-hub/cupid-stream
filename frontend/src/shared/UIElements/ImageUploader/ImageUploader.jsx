@@ -1,36 +1,36 @@
-import { useRef, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { Box, Button } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 import classes from "./ImageUploader.module.css";
-import { Button } from "@mui/material";
-
-const ImageUploader = ({ onFileUpload }) => {
+import CloseIcon from "@mui/icons-material/Close";
+const ImageUploader = ({ onImageUpload }) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [serverFile, setServerFile] = useState(null);
+  const [confirm, setConfirm] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
     let file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-    onFileUpload(file);
+    setServerFile(file);
+    const reader = new FileReader();
+    reader.onload = () => setSelectedImage(reader.result);
+    reader.readAsDataURL(file);
     setSelectedImage(null);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => setSelectedImage(reader.result);
-      reader.readAsDataURL(file);
-    }
-    onFileUpload(file);
+    setServerFile(file);
+    const reader = new FileReader();
+    reader.onload = () => setSelectedImage(reader.result);
+    reader.readAsDataURL(file);
     setSelectedImage(null);
   };
+
+  useEffect(() => {
+    if (confirm) onImageUpload(selectedImage, serverFile);
+  }, [confirm, onImageUpload, selectedImage, serverFile]);
 
   return (
     <div className={classes["image-uploader"]}>
@@ -60,7 +60,14 @@ const ImageUploader = ({ onFileUpload }) => {
         )}
       </div>
       {selectedImage && (
-        <Button onClick={() => setSelectedImage(null)}>Clear</Button>
+        <Box>
+          <Button onClick={() => setConfirm(true)}>
+            <DoneIcon />
+          </Button>
+          <Button onClick={() => setSelectedImage(null)}>
+            <CloseIcon />
+          </Button>
+        </Box>
       )}
     </div>
   );

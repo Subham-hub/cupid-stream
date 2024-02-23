@@ -1,77 +1,28 @@
-.content{
-    height: 100vh;
-    overflow: hidden;
-}
-.video-player{
-    float:left;
-}
-.video-player video{
-    height: 100vh;
-    width: 100%;
-}
-.chat-box{
-    height: 100vh;
-    float: right;
-    overflow-y: scroll;
-
-}
-.header{
-    text-align: center;
-    padding-top: 1rem;
-}
-.header h2{
-    font-weight: 400;
-}
-.profile{
-    display: flex;
-    margin: 1rem ;
-}
-.profile h3{
-    font-weight: 500;
-    padding-top: 7px;
-    padding-left: 5px;
-}
-.users{
-    height: fit-content;
-    margin: 1rem;
+.content {
+  height: 100vh;
+  overflow: hidden;
 }
 
-.chat-body{
-    border: 2px solid black;
-    border-radius: 2rem;
-    margin: 1rem 8px;
-    padding: 5px;
-    display: flex;
-
-}
-.input input{
-    position: relative;
-    bottom: 0;
-}
-.message-box{
-    font-weight: lighter;
-    padding: 1rem;
-    height: 75vh;
-    overflow-y: scroll;
+.video-player video {
+  height: 100vh;
+  width: 100%;
 }
 
-.chat-box::-webkit-scrollbar {
-    width: 5px;
-}
-.message-box::-webkit-scrollbar{
-    width: 10px;
-}
-.message-box::-webkit-scrollbar-thumb{
-    background: salmon;
+.modal-height-limit {
+  overflow-y: scroll;
+  min-height: fit-content;
+  max-height: 25rem;
 }
 
-.message-box::-webkit-scrollbar-track,
-.chat-box::-webkit-scrollbar-track {
-    background: transparent;
+.modal-height-limit::-webkit-scrollbar {
+  width: 8px;
 }
 
-
-.chat-box::-webkit-scrollbar-thumb {
-    background: black;
+.modal-height-limit::-webkit-scrollbar-track {
+  background: #444;
 }
-  
+
+.modal-height-limit::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}

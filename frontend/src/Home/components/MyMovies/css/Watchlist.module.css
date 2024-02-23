@@ -1,0 +1,17 @@
+.watchlist::-webkit-scrollbar {
+  width: 5px;
+}
+
+.watchlist::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.watchlist::-webkit-scrollbar-thumb {
+  background: #e7e9ee;
+}
+
+@media (width < 1550px) {
+  .watchlist {
+    display: none;
+  }
+}

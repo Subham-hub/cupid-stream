@@ -1,7 +1,5 @@
-import cloudinary from "cloudinary";
 import { validationResult } from "express-validator";
 
-import Movie from "../../models/movie-modal.js";
 import User from "../../models/user-model.js";
 import { HttpError, messages } from "../../utils/index.js";
 
@@ -18,14 +16,14 @@ export const removeFromWatchlist = async (req, res, next) => {
     return next(new HttpError(messages.serverError, 500));
   }
 
-  const existingMovie = user.watchList.find(
-    (m) => m.movieId.toString() === movieId
+  const existingMovie = user.movieDetails.some(
+    (m) => m.category === "watchList" && m.movieId.toString() === movieId
   );
   if (!existingMovie)
     return next(new HttpError("The movie have been already removed", 404));
 
-  user.watchList = user.watchList.filter(
-    (m) => m.movieId.toString() !== movieId
+  user.movieDetails = user.movieDetails.filter(
+    (m) => !(m.category === "watchList" && m.movieId == movieId)
   );
 
   try {

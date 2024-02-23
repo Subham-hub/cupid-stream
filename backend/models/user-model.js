@@ -18,37 +18,21 @@ const userSchema = new mongoose.Schema({
     default: "Offline",
     enum: ["Online", "Offline"],
   },
-  uploadedMovies: [
+  movieDetails: [
     {
-      movieId: { type: mongoose.Types.ObjectId, ref: "Movie" },
+      movieId: String,
       title: String,
       description: String,
-      thumnail: { id: String, src: String },
-    },
-  ],
-  watchList: [
-    {
-      title: String,
-      description: String,
-      thumnail: { id: String, src: String },
-      movieId: { type: mongoose.Types.ObjectId, ref: "Movie" },
-      uploadedBy: {
-        uid: { type: mongoose.Types.ObjectId, ref: "User" },
-        username: String,
+      thumbnail: { id: String, src: String },
+      genres: [{ id: String, name: String }],
+      category: {
+        type: String,
+        enum: ["uploadedMovies", "watchList"],
       },
+      movieOrigin: { type: String, enum: ["user", "api"], default: "user" },
     },
   ],
-  watchHistory: [
-    {
-      movie: [{ type: mongoose.Types.ObjectId, ref: "Movie" }],
-      watchedWith: [
-        {
-          uid: { type: mongoose.Types.ObjectId, ref: "User" },
-          username: String,
-        },
-      ],
-    },
-  ],
+
   memories: [
     {
       madeWith: [{ type: mongoose.Types.ObjectId, ref: "User" }],
@@ -60,38 +44,7 @@ const userSchema = new mongoose.Schema({
       ],
     },
   ],
-  friends: [
-    {
-      uid: { type: mongoose.Types.ObjectId },
-      username: String,
-      avatar: { id: String, src: String },
-      status: {
-        type: String,
-        default: "Offline",
-        enum: ["Online", "Offline"],
-      },
-    },
-  ],
-  friendRequests: [
-    {
-      uid: { type: mongoose.Types.ObjectId, ref: "User" },
-      username: String,
-      avatar: { id: String, src: String },
-      requestType: { type: String, enum: ["incoming", "outgoing"] },
-      status: {
-        type: String,
-        default: "Offline",
-        enum: ["Online", "Offline"],
-      },
-    },
-  ],
-  blocked: [
-    {
-      uid: { type: mongoose.Types.ObjectId, ref: "User" },
-      username: String,
-      avatar: { id: String, src: String },
-    },
-  ],
+  createdAt: { type: Date, default: Date.now },
 });
 
 userSchema.pre("save", async function (next) {

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { setData } from "./userDataSlice";
-import { changeTheme } from "./uiSlice";
+import { switchToDark, switchToLight, switchToPink } from "./themeSlice";
 
 const authSlice = createSlice({
   name: "Authentication",
@@ -38,7 +38,9 @@ export const autoLogin = (data, setLoadingData) => {
       });
       dispatch(setData({ token, ...response.data }));
       dispatch(login());
-      dispatch(changeTheme(response.data.uiTheme));
+      if (response.data.uiTheme === "dark") dispatch(switchToDark());
+      else if (response.data.uiTheme === "light") dispatch(switchToLight());
+      else if (response.data.uiTheme === "pink") dispatch(switchToPink());
       setLoadingData(false);
     } catch (e) {
       console.error(e);

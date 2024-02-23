@@ -2,22 +2,21 @@ import express from "express";
 import { check } from "express-validator";
 
 import {
-  acceptFriendRequest,
-  blockUser,
   getAllUsers,
   getUserById,
   login,
   logout,
-  removeFriend,
-  sendFriendRequest,
   signup,
-  unBlockUser,
 } from "../controllers/user-controllers/index.js";
 
 import { isLoggedIn } from "../middleware/user-middleware.js";
+import { updateUser } from "../controllers/user-controllers/update-user.js";
+import { updateUseravatar } from "../controllers/user-controllers/update-user-avatar.js";
+import { getDummyMovieDetails } from "../controllers/user-controllers/get-dummy-movies-details.js";
 
 const router = express.Router();
 
+router.get("/get_dummy_movies/:type", getDummyMovieDetails);
 router.get("/get_all_users", isLoggedIn, getAllUsers);
 router.get("/get_user/:uid", isLoggedIn, getUserById);
 
@@ -43,53 +42,17 @@ router.post(
 router.get("/logout", isLoggedIn, logout);
 
 router.patch(
-  "/send_friend_request",
+  "/update_user_details",
   isLoggedIn,
-  [
-    check("senderUid").isLength({ min: 24 }),
-    check("recieverUid").isLength({ min: 24 }),
-  ],
-  sendFriendRequest
+  [check("uid").isLength({ min: 24 }), check("field").notEmpty()],
+  updateUser
 );
 
 router.patch(
-  "/accept_friend_request",
+  "/update_user_avatar",
   isLoggedIn,
-  [
-    check("accepterUid").isLength({ min: 24 }),
-    check("requestSenderUid").isLength({ min: 24 }),
-  ],
-  acceptFriendRequest
-);
-
-router.patch(
-  "/remove_friend",
-  isLoggedIn,
-  [
-    check("removerUid").isLength({ min: 24 }),
-    check("otherUid").isLength({ min: 24 }),
-  ],
-  removeFriend
-);
-
-router.patch(
-  "/block_user",
-  isLoggedIn,
-  [
-    check("blockerUid").isLength({ min: 24 }),
-    check("otherUid").isLength({ min: 24 }),
-  ],
-  blockUser
-);
-
-router.patch(
-  "/unblock_user",
-  isLoggedIn,
-  [
-    check("blockerUid").isLength({ min: 24 }),
-    check("otherUid").isLength({ min: 24 }),
-  ],
-  unBlockUser
+  [check("uid").isLength({ min: 24 }), check("action").notEmpty()],
+  updateUseravatar
 );
 
 export default router;

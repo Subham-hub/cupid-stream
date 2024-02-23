@@ -10,13 +10,9 @@ import cors from "cors";
 import cloudinary from "cloudinary";
 
 import userRoutes from "./backend/routes/users-route.js";
-import messageRoutes from "./backend/routes/messages-route.js";
 import movieRoutes from "./backend/routes/movie-routes.js";
 import HttpError from "./backend/utils/http-error.js";
-import {
-  sendMessage,
-  updateTheme,
-} from "./backend/socket-controllers/index.js";
+import { updateTheme } from "./backend/socket-controllers/index.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -31,14 +27,13 @@ app.use(
     credentials: true,
   })
 );
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.use("/api/v1", userRoutes);
-app.use("/api/v1", messageRoutes);
 app.use("/api/v1", movieRoutes);
 
 app.use(() => {
@@ -54,22 +49,22 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-new Server(httpServer, {
+const io = new Server(httpServer, {
   cors: {
     origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   },
-}).on("connection", (socket) => {
+});
+io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log("User with id: " + socket.id + " joined room: " + data);
   });
 
-  sendMessage(socket);
   updateTheme(socket);
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    console.log(`User disconnected`);
   });
 });
 

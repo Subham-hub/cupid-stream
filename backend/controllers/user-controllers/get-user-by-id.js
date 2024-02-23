@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 import User from "../../models/user-model.js";
 import { HttpError, messages } from "../../utils/index.js";
 
