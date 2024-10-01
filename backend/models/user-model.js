@@ -33,17 +33,6 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  memories: [
-    {
-      madeWith: [{ type: mongoose.Types.ObjectId, ref: "User" }],
-      content: [
-        {
-          user: { type: mongoose.Types.ObjectId, ref: "User" },
-          text: String,
-        },
-      ],
-    },
-  ],
   createdAt: { type: Date, default: Date.now },
 });
 
