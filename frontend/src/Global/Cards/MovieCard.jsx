@@ -83,7 +83,7 @@ const MovieCard = ({
 
   const watchListHandler = async () => {
     if (isLoading) return;
-    if (btn2 === "Go to Watchlist") return navigate("/my-movies");
+    if (btn2 === "Go to Watchlist") return navigate("/watchlist");
     const apiEndPoint = btn2 ? "remove_from_watchlist" : "add_to_watch_list";
     const payload = { movieId, uid, isApi, title, description, src, genres };
 
@@ -355,13 +355,10 @@ const MovieCard = ({
         )}
         {isLoggedIn && (
           <WatchAloneModal
-            movieId={movieId}
             title={title}
             description={description}
             src={src}
             genres={genres}
-            isApi={isApi}
-            handleCloseWatchAloneModal={handleCloseWatchAloneModal}
             handleOpenReadMoreModal={handleOpenReadMoreModal}
           />
         )}
@@ -427,7 +424,7 @@ const MovieCard = ({
                   </IconButton>
                 )}
                 {!isLoading &&
-                pathname !== "/my-movies" &&
+                pathname !== "/watchlist" &&
                 btn2 !== "Go to Watchlist" ? (
                   <IconButton
                     onClick={watchListHandler}

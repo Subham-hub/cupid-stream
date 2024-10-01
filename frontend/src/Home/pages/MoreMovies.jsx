@@ -1,21 +1,20 @@
 import { useLocation, useParams } from "react-router-dom";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 
-import MovieCard from "../../Global/Cards/MovieCard";
 import { useEffect, useState } from "react";
 import { notify, types } from "../../shared/utils/notification";
 import { useHttp } from "../../shared/hooks/http-hook";
+import LoadingSpinner from "../../shared/UIElements/LoadingSpinner/LoadingSpinner";
+import MovieGridSystem from "../../shared/UIElements/MovieGridSystem";
 
 const MoreMovies = () => {
   const { moviesType } = useParams();
   const { sendRequest, isLoading, error, clearError } = useHttp();
   const {
-    bgColor: { primaryBG, secondaryBG },
-    textColor: { primaryText, secondaryText },
+    bgColor: { primaryBG },
+    textColor: { primaryText },
   } = useSelector((s) => s.themeSlice);
-  const { movieDetails } = useSelector((s) => s.userData);
-  const watchList = movieDetails.filter((m) => m.category === "watchList");
 
   const { state: navStateMovies } = useLocation();
 
@@ -44,36 +43,23 @@ const MoreMovies = () => {
   if (moviesType === "upcoming") heading = moviesType;
 
   return (
-    <Box bgcolor={primaryBG} color={primaryText} minHeight="100vh">
-      <Typography
-        textTransform="uppercase"
-        variant="h4"
-        align="center"
-        color={primaryText}
-        pt={1}
-      >
-        {heading}
-      </Typography>
-      <Grid container justifyContent="center" spacing={2}>
-        {movies.map((movie) => (
-          <Grid key={movie.movieId} item xs={12} sm={6} md={5} lg={3} xl={2.5}>
-            <MovieCard
-              title={movie?.title}
-              description={movie?.description}
-              movieId={movie?.movieId}
-              src={movie?.thumbnail?.src}
-              genres={movie?.genres}
-              isApi={movie?.isApi}
-              btn2={
-                watchList.find((m) => m?.movieId == movie?.movieId) &&
-                "Go to Watchlist"
-              }
-              username={movie?.uploadedBy?.username}
-            />
-          </Grid>
-        ))}
-      </Grid>{" "}
-    </Box>
+    <>
+      {isLoading && <LoadingSpinner asOverlay />}
+      {!isLoading && (
+        <Box bgcolor={primaryBG} color={primaryText} minHeight="100vh">
+          <Typography
+            textTransform="uppercase"
+            variant="h4"
+            align="center"
+            color={primaryText}
+            pt={1}
+          >
+            {heading}
+          </Typography>
+          <MovieGridSystem movies={movies} />
+        </Box>
+      )}
+    </>
   );
 };
 

@@ -3,32 +3,22 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
 import classes from "./WatchAloneModal.module.css";
-import { useNavigate } from "react-router-dom";
 import truncateChars from "../../shared/utils/truncateChars";
 import { noImage } from "../../assets/images";
 
 const WatchAloneModal = ({
-  handleCloseWatchAloneModal,
-  movieId,
   title,
   description,
   src,
   genres,
-  isApi,
   handleOpenReadMoreModal,
 }) => {
-  const navigate = useNavigate();
   const {
     bgColor: { primaryBtnBG },
   } = useSelector((s) => s.themeSlice);
 
   const watchMovieClickHandler = () => {
-    if (isApi)
-      return alert("This is just a prop movie to populate the website");
-    handleCloseWatchAloneModal();
-    setTimeout(() => {
-      navigate(`/movie/${movieId}`);
-    }, 1);
+    alert("This is just a prop movie to populate the website");
   };
 
   return (

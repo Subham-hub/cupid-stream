@@ -54,7 +54,7 @@ const MovieSlider = ({ heading, movies = [], type }) => {
           <Button
             onClick={() =>
               type === "self"
-                ? navigate("/my-movies")
+                ? navigate("/watchlist")
                 : navigate(`/more-movies/${type}`, {
                     replace: true,
                     state: movies,

@@ -38,10 +38,10 @@ export const SmallScreenNavbarLinks = () => {
           <MenuItem
             onClick={() => {
               handleCloseNavMenu();
-              navigate("/my-movies");
+              navigate("/watchlist");
             }}
           >
-            <Typography textAlign="center">My Movies</Typography>
+            <Typography textAlign="center">Watchlist</Typography>
           </MenuItem>
         </Menu>
       </Box>
@@ -70,16 +70,16 @@ export const BigScreenNavbarLinks = () => {
             Home
           </Button>
           <Button
-            onClick={() => navigate("/my-movies")}
+            onClick={() => navigate("/watchlist")}
             sx={{
               my: 2,
               color: "white",
               display: "block",
               borderBottom:
-                pathname === "/my-movies" ? "2px solid #3498db" : "none",
+                pathname === "/watchlist" ? "2px solid #3498db" : "none",
             }}
           >
-            My Movies
+            Watchlist
           </Button>
         </>
       )}

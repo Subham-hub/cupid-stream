@@ -5,10 +5,9 @@ import { ToastContainer } from "react-toastify";
 
 const HomePage = lazy(() => import("./Home/pages/HomePage"));
 const Auth = lazy(() => import("./Auth/pages/Auth"));
-const Movie = lazy(() => import("./Movie/pages/Movie"));
-const MyMovies = lazy(() => import("./Home/pages/MyMovies"));
-const MovieUploader = lazy(() => import("./Home/pages/MovieUploader"));
+const Watchlist = lazy(() => import("./Home/pages/Watchlist"));
 const Profile = lazy(() => import("./Home/pages/Profile"));
+const MoreMovies = lazy(() => import("./Home/pages/MoreMovies"));
 
 import Layout from "./Layout/";
 import { autoLogin } from "./shared/store/authSlice";
@@ -21,7 +20,6 @@ import {
   switchToLight,
   switchToPink,
 } from "./shared/store/themeSlice";
-import MoreMovies from "./Home/pages/MoreMovies";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,18 +68,13 @@ const App = () => {
             {isLoggedIn && (
               <>
                 <Route
-                  path="/my-movies"
-                  element={<MyMovies sendRequest={sendRequest} />}
-                />
-                <Route
-                  path="/upload-movie"
-                  element={<MovieUploader sendRequest={sendRequest} />}
+                  path="/watchlist"
+                  element={<Watchlist sendRequest={sendRequest} />}
                 />
                 <Route
                   path="/profile"
                   element={<Profile sendRequest={sendRequest} />}
                 />
-                <Route path="/movie/:movieId" element={<Movie />} />
               </>
             )}
             {/* <Route path="/not-found" element={<NotFound />} /> */}
